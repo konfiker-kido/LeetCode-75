@@ -1,0 +1,29 @@
+Here are some ways to find out the GCD( Greatest Common Divisor) of Two Number
+
+
+--------------------------------  1st Approach ( Naive Approch ) --------------------------------------------------------------------------
+int gcd(int a, int b)
+{
+    // Find Minimum of a and b
+    int result = min(a, b);  // find smallest one bcz we will find will start from that only (* max value which can divide to result is result itself ) to 1
+    while (result > 0) {
+        if (a % result == 0 && b % result == 0) {
+            break;
+        }
+        result--;
+    }
+ 
+    // Return gcd of a and b
+    return result;
+}
+
+------------------------------ Recursive Function ------------------------------------------------------------
+gcd(a, b):
+    if a = b:
+        return a
+    if a > b:
+        return gcd(a – b, b)
+    else:
+        return gcd(a, b – a)
+
+time complexity O(min(a,b))
