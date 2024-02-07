@@ -1,0 +1,76 @@
+Sort Array by Increasing Frequency
+
+Given an array of integers nums, sort the array in increasing order based on the frequency of the values. 
+If multiple values have the same frequency, sort them in decreasing order.
+
+Input: nums = [1,1,2,2,2,3]
+Output: [3,1,1,2,2,2]
+Explanation: '3' has a frequency of 1, '1' has a frequency of 2, and '2' has a frequency of 3.
+
+Input: nums = [2,3,1,3,2]
+Output: [1,3,3,2,2]
+Explanation: '2' and '3' both have a frequency of 2, so they are sorted in decreasing order.
+
+Input: nums = [-1,1,-6,4,5,-6,1,4,1]
+Output: [5,-1,4,4,-6,-6,1,1,1]
+
+------------------------------------------  C++ Solution (Using map and Pair of Vector ) -----------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+  static bool cmp(pair<int,int> a,pair<int,int> b){
+      if(a.first<b.first)
+        return true;
+      if(a.first==b.first)
+        return a.second>b.second;
+        return false;
+  }
+    vector<int> frequencySort(vector<int>& nums) {
+        
+        unordered_map<int,int> mp;
+           for(int val:nums)
+             mp[val]++; // counting freq 
+        
+        vector<pair<int,int>> v;  // {freq,val}
+         auto itr=mp.begin();
+         while(itr!=mp.end()){
+             v.push_back({itr->second,itr->first});
+             itr++;
+         }
+    
+        sort(v.begin(),v.end(),cmp); // sorting with custom comparator
+
+   vector<int> ans;   // storing the answer
+    for(pair<int,int> p:v){
+        while(p.first){
+            ans.push_back(p.second);
+            p.first--;
+        }
+    }
+
+
+        return ans;
+    }
+};
+
+
+
+-------------------------------------------------- Using  Lambda Function -------------------------------------------------------------------------------------------------------------------------------------
+class Solution {
+public:
+
+    vector<int> frequencySort(vector<int>& nums) {
+        
+        unordered_map<int,int> mp;
+           for(int val:nums)
+             mp[val]++; // counting freq 
+
+             sort(nums.begin(),nums.end(),[&](int a,int b){    // directly changing values to nums
+                    if(mp[a]==mp[b]) return a>b; // if freq is equal for both values then sort in descinng order
+                    if(mp[a]<mp[b]) return true;  // if freq is less then sort in ascending
+                    return false;                   
+                 });
+
+        return nums;
+    }
+};
